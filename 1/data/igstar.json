@@ -1,0 +1,32 @@
+[
+	{
+		"name":"Baolan",
+		"skill":"money",
+		"path":"images/Baolan.jpg"
+	},
+	{
+		"name":"JackeyLove",
+		"skill":"laugh",
+		"path":"images/JackeyLove.jpg"
+	},
+	{
+		"name":"Ning",
+		"skill":"美美哒",
+		"path":"images/Ning.jpg"
+	},
+	{
+		"name":"Rookie",
+		"skill":"美美哒",
+		"path":"images/Rookie.jpg"
+	},
+	{
+		"name":"TheShy",
+		"skill":"美美哒",
+		"path":"images/TheShy.jpg"
+	},
+	{
+		"name":"WXZ",
+		"skill":"美美哒",
+		"path":"images/WXZ.jpg"
+	}
+]

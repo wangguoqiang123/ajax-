@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>获取更多页面</title>
+	<style>
+		.item {
+			width: 640px;
+			background-color: #eee;
+			margin-top: 50px;
+			border-radius: 10px;
+			overflow: hidden;
+		}
+		.item .cover {
+			display: block;
+		}
+		.item .cover img {
+			display: block;
+		}
+		.item .bottom {
+			heigjt: 35px;
+			position: relative;
+		}
+		.item .bottom a {
+			text-decoration: none;
+			line-height: 35px;
+			margin-left: 20px;
+		}
+		.item .bottom .rightBox {
+			position: absolute;
+			top: 0;
+			right: 0;
+			height: 100%;
+		}
+		.item .bottom .rightBox span {
+			line-height: 35px;
+			margin: 0 20px;
+			font-size: 15px;
+		}
+		.item .bottom .rightBox span::before{
+			margin-right: 10px;
+			color: red;
+		}
+		.getMore {
+			height: 100px;
+			width: 100px;
+			position: fixed;
+			top: 50%;
+			right: 100px;
+			margin-top: -20px;
+		}
+	</style>
+	<link rel="stylesheet" href="css/font-awesome.css">
+</head>
+<body>
+	<input type="button" value="加载更多" class="getMore">
+	<div class="container">
+		<div class="item">
+			<a href="#" class="cover"><img src="images/vol.840.jpg" alt=""></a>
+			<div class="bottom">
+				<a href="#">vol.840  ig牛逼 全员恶人 ！！！！</a>
+				<div class="rightBox">
+					<span class="icon-heart">18544</span>
+					<span class="icon-comment">293</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+
+<!-- 导入js插件  模板插件 -->
+<script src="js/template-native.js"></script>
+
+<!-- 导入自己封装的ajax函数 -->
+<script type="text/javascript" src='js/ajax_tool.js'></script>
+
+
+<!-- 定义模板 -->
+<script id="template">
+	<%for(var i=0;i<items.length;i++){%>
+		<div class="item">
+				<a href="#" class='cover'><img src="<%=items[i].path%>" alt=""></a>
+				<div class="bottom">
+					<a href="#"><%=items[i].name%></a>
+				<div class='rightBox'>
+					<span class='icon-heart'><%=items[i].star%></span>
+					<span class='icon-comment'><%=items[i].message%></span>
+				</div>
+			</div>
+		</div>
+	<%}%>
+</script>
+
+
+<script>
+	document.querySelector(".getMore").onclick = function () {
+		//直接调用工具
+		ajax_tool_pro({
+			url: 'getMore.php',
+			data: undefined,
+			method: "get",
+			success: function(data) {
+				//转化为ja对象
+				console.log(data);
+
+				//转化为js对象
+				var jsArr = JSON.parse(data);
+				console.log(jsArr);
+
+				//包装成一个对象
+				var obj = {
+					items:jsArr
+				};
+
+				//调用模板引擎方法填写数据
+				var resultStr = template('template', obj);
+				console.log(resultStr);
+
+				//放到界面
+				document.querySelector(".container").innerHTML = resultStr;
+			}
+		})
+	}
+</script>

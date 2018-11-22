@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>IG牛逼</title>
+	<style>
+		table {
+			margin: 100px auto;
+			width: 500px;
+		}
+		td {
+			border: 1px solid red;
+		}
+	</style>
+</head>
+<body>
+	<h1>IG牛逼，点击即可解锁全员恶人</h1>
+	<input type="button" value="获取我最爱的IG队员" id="getIg">
+	<table id="tableBox"></table>
+</body>
+</html>
+
+<!-- 定义模板 -->
+<script type="text/template" id="template">
+	<tr>
+		<td>{{name}}</td>
+		<td>{{skill}}</td>
+		<td><img src='{{path}}'></td>
+		<td><a href="#">点击了解更多{{name}}的事</a></td>
+	</tr>
+</script>
+<!-- 导入模板引擎 -->
+<script src="js/fox_template.js"></script>
+<!-- 自己写的js -->
+<script>
+	document.querySelector('#getIg').onclick = function() {
+		var ajax = new XMLHttpRequest();
+
+		ajax.open('post','getIg.php');
+
+		ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+		ajax.send();
+
+		ajax.onreadystatechange = function () {
+			if(ajax.readyState == 4 && ajax.status == 200) {
+				console.log(ajax.responseText);
+
+				//转化为js对象 不管是 数组还是对象 都可以用这种方法
+				var starArr = JSON.parse(ajax.responseText);
+
+				console.log(starArr);
+
+				//获取想要替换的文本
+				var templateStr = document.querySelector("#template").innerHTML;
+
+				//将每一次 获取的字符串拼接起来
+				var totalTr = '';
+				//这里获取的是一个数组
+				for (var i=0; i< starArr.length; i++) {
+					//获取当前循环的这个对象
+					var currentObj = starArr[i];
+
+					//调用封装的模板方法进行替换
+					var resultStr = fox_template_pro(templateStr,currentObj);
+
+					//测试替换是否成功
+					console.log(resultStr);
+
+					totalTr+=resultStr;
+
+
+				}
+				//循环完毕之后直接设置给页面中的tatle即可
+				document.querySelector("#tableBox").innerHTML = totalTr;
+
+
+			}
+		}
+	}
+</script>
